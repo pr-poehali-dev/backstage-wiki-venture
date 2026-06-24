@@ -13,7 +13,7 @@ const NAV = [
 ];
 
 const CATEGORIES = [
-  { name: 'Уровни', icon: 'Layers', count: 142, desc: 'Карта известных пространств Закулисья — от Level 0 до бесконечности.' },
+  { name: 'Уровни', icon: 'Layers', count: 142, desc: 'Карта известных пространств Закулисья — от Level 0 до бесконечности.', link: '/levels' },
   { name: 'Сущности', icon: 'Ghost', count: 67, desc: 'Каталог существ, обитающих между стен реальности.' },
   { name: 'Объекты', icon: 'Box', count: 53, desc: 'Аномальные предметы и артефакты, найденные внутри.' },
   { name: 'Феномены', icon: 'Zap', count: 38, desc: 'Необъяснимые явления, искажения времени и пространства.' },
@@ -233,12 +233,16 @@ const SectionTitle = ({
   </div>
 );
 
-const CategoriesGrid = ({ onOpen }: { onOpen: () => void }) => (
+const CategoriesGrid = ({ onOpen }: { onOpen: () => void }) => {
+  const navigate = useNavigate();
+  return (
   <section className="container grid gap-4 py-8 sm:grid-cols-2 lg:grid-cols-3">
-    {CATEGORIES.map((c, i) => (
+    {CATEGORIES.map((c, i) => {
+      const cat = c as typeof c & { link?: string };
+      return (
       <button
         key={c.name}
-        onClick={onOpen}
+        onClick={() => cat.link ? navigate(cat.link) : onOpen()}
         style={{ animationDelay: `${i * 70}ms` }}
         className="group animate-fade-up border-2 border-foreground/30 bg-card p-5 text-left opacity-0 transition-all hover:border-foreground hover:shadow-[4px_4px_0_hsl(var(--foreground))]"
       >
@@ -253,9 +257,11 @@ const CategoriesGrid = ({ onOpen }: { onOpen: () => void }) => (
         <h3 className="font-display text-xl font-600 uppercase tracking-wide">{c.name}</h3>
         <p className="mt-1 font-body text-sm text-foreground/60">{c.desc}</p>
       </button>
-    ))}
+    );
+    })}
   </section>
-);
+  );
+};
 
 const ArticlesGrid = ({ items, bare }: { items: typeof ARTICLES; bare?: boolean }) => {
   const navigate = useNavigate();
