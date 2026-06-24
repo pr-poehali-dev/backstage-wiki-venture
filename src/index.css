@@ -4,35 +4,35 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 48 38% 84%;
+    --foreground: 40 30% 12%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 46 42% 80%;
+    --card-foreground: 40 30% 12%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 46 42% 82%;
+    --popover-foreground: 40 30% 12%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 45 90% 52%;
+    --primary-foreground: 40 40% 8%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 44 30% 72%;
+    --secondary-foreground: 40 30% 14%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 46 28% 74%;
+    --muted-foreground: 42 18% 38%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 45 95% 55%;
+    --accent-foreground: 40 40% 8%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 48 38% 92%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 44 25% 60%;
+    --input: 44 25% 64%;
+    --ring: 45 90% 52%;
 
-    --radius: 0.5rem;
+    --radius: 0.25rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -96,6 +96,42 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-body;
+  }
+}
+
+@layer utilities {
+  .grain {
+    position: relative;
+  }
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: 0.06;
+    mix-blend-mode: multiply;
+    z-index: 50;
+  }
+  .text-glow {
+    text-shadow:
+      0 0 18px hsl(45 95% 55% / 0.55),
+      0 0 4px hsl(45 95% 60% / 0.4);
+  }
+  .room-grid {
+    background-image:
+      linear-gradient(hsl(44 25% 55% / 0.35) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(44 25% 55% / 0.35) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .ceiling {
+    background:
+      radial-gradient(
+        ellipse 60% 80% at 50% -10%,
+        hsl(48 90% 80% / 0.9),
+        transparent 70%
+      ),
+      linear-gradient(180deg, hsl(48 50% 88%), hsl(48 38% 84%));
   }
 }
