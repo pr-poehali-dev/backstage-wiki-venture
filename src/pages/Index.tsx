@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Icon from '@/components/ui/icon';
 
 const HERO_IMG =
@@ -21,7 +22,7 @@ const CATEGORIES = [
 ];
 
 const ARTICLES = [
-  { title: 'Level 0 — «Жёлтые комнаты»', cat: 'Уровни', danger: 'Безопасно', tag: 'class-1', excerpt: 'Бесконечный лабиринт случайно сгенерированных офисных помещений с жёлтыми обоями и гудящими лампами.' },
+  { title: 'Level 0 — «Жёлтые комнаты»', cat: 'Уровни', danger: 'Безопасно', tag: 'class-1', link: '/level-0', excerpt: 'Бесконечный лабиринт случайно сгенерированных офисных помещений с жёлтыми обоями и гудящими лампами.' },
   { title: 'Level !-! — «Беготня»', cat: 'Уровни', danger: 'Опасно', tag: 'class-4', excerpt: 'Тёмный тоннель, где за вами всегда что-то гонится. Не оборачивайтесь.' },
   { title: 'Сущность 8 — «Уборщик»', cat: 'Сущности', danger: 'Нейтрально', tag: 'entity', excerpt: 'Гуманоид, бесконечно протирающий пол. Игнорирует исследователей, пока его не трогают.' },
   { title: 'Миндальная вода', cat: 'Объекты', danger: 'Безопасно', tag: 'object', excerpt: 'Единственный безопасный источник питья. Восстанавливает рассудок и силы.' },
@@ -256,41 +257,50 @@ const CategoriesGrid = ({ onOpen }: { onOpen: () => void }) => (
   </section>
 );
 
-const ArticlesGrid = ({ items, bare }: { items: typeof ARTICLES; bare?: boolean }) => (
-  <section className={`container grid gap-4 ${bare ? '' : 'py-8'} md:grid-cols-2`}>
-    {items.length === 0 && (
-      <div className="col-span-full border-2 border-dashed border-foreground/30 py-12 text-center font-mono text-sm uppercase tracking-wider text-foreground/50">
-        Записей не найдено · возможно, этот уровень ещё не задокументирован
-      </div>
-    )}
-    {items.map((a, i) => (
-      <article
-        key={a.title}
-        style={{ animationDelay: `${i * 60}ms` }}
-        className="group animate-fade-up relative overflow-hidden border-2 border-foreground/30 bg-card p-5 opacity-0 transition-all hover:border-foreground"
-      >
-        <div className="absolute right-0 top-0 bg-foreground px-2 py-1 font-mono text-[10px] uppercase text-background">
-          {a.tag}
+const ArticlesGrid = ({ items, bare }: { items: typeof ARTICLES; bare?: boolean }) => {
+  const navigate = useNavigate();
+  return (
+    <section className={`container grid gap-4 ${bare ? '' : 'py-8'} md:grid-cols-2`}>
+      {items.length === 0 && (
+        <div className="col-span-full border-2 border-dashed border-foreground/30 py-12 text-center font-mono text-sm uppercase tracking-wider text-foreground/50">
+          Записей не найдено · возможно, этот уровень ещё не задокументирован
         </div>
-        <span className="font-mono text-[11px] uppercase tracking-widest text-primary">{a.cat}</span>
-        <h3 className="mt-2 font-display text-2xl font-600 uppercase leading-tight transition-colors group-hover:text-primary">
-          {a.title}
-        </h3>
-        <p className="mt-2 font-body text-sm text-foreground/65">{a.excerpt}</p>
-        <div className="mt-4 flex items-center justify-between">
-          <span
-            className={`border px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider ${dangerColor[a.danger]}`}
+      )}
+      {items.map((a, i) => {
+        const link = (a as { link?: string }).link;
+        return (
+          <article
+            key={a.title}
+            onClick={() => link && navigate(link)}
+            style={{ animationDelay: `${i * 60}ms` }}
+            className={`group animate-fade-up relative overflow-hidden border-2 border-foreground/30 bg-card p-5 opacity-0 transition-all hover:border-foreground ${
+              link ? 'cursor-pointer hover:shadow-[4px_4px_0_hsl(var(--foreground))]' : ''
+            }`}
           >
-            {a.danger}
-          </span>
-          <span className="flex items-center gap-1 font-mono text-xs text-foreground/50 transition-transform group-hover:translate-x-1">
-            Читать <Icon name="ArrowUpRight" size={14} />
-          </span>
-        </div>
-      </article>
-    ))}
-  </section>
-);
+            <div className="absolute right-0 top-0 bg-foreground px-2 py-1 font-mono text-[10px] uppercase text-background">
+              {a.tag}
+            </div>
+            <span className="font-mono text-[11px] uppercase tracking-widest text-primary">{a.cat}</span>
+            <h3 className="mt-2 font-display text-2xl font-600 uppercase leading-tight transition-colors group-hover:text-primary">
+              {a.title}
+            </h3>
+            <p className="mt-2 font-body text-sm text-foreground/65">{a.excerpt}</p>
+            <div className="mt-4 flex items-center justify-between">
+              <span
+                className={`border px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider ${dangerColor[a.danger]}`}
+              >
+                {a.danger}
+              </span>
+              <span className="flex items-center gap-1 font-mono text-xs text-foreground/50 transition-transform group-hover:translate-x-1">
+                {link ? 'Открыть статью' : 'Читать'} <Icon name="ArrowUpRight" size={14} />
+              </span>
+            </div>
+          </article>
+        );
+      })}
+    </section>
+  );
+};
 
 const AuthorsGrid = () => (
   <section className="container grid gap-4 py-8 sm:grid-cols-2 lg:grid-cols-4">
