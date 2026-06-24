@@ -6,7 +6,7 @@ const HERO_IMG =
 
 const STATS = [
   { label: 'Класс опасности', val: 'Class 1', icon: 'ShieldCheck' },
-  { label: 'Безопасность', val: 'Безопасно', icon: 'Check' },
+  { label: 'Безопасность', val: 'Опасно', icon: 'ShieldAlert' },
   { label: 'Сущности', val: 'Отсутствуют', icon: 'CircleSlash' },
   { label: 'Объём', val: 'Бесконечен', icon: 'Infinity' },
 ];
