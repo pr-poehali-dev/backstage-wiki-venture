@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Icon from '@/components/ui/icon';
 
 const LEVELS = [
-  { num: '0',    name: 'Жёлтые комнаты',     class: 'Class 1',  danger: 'Опасно',     status: 'Задокументирован', link: '/level-0', sound: 'Гудение ламп' },
+  { num: '0',    name: 'Жёлтые комнаты',     class: 'Class 1',  danger: 'Безопасно',  status: 'Задокументирован', link: '/level-0', sound: 'Гудение ламп' },
   { num: '1',    name: 'Бетонные джунгли',    class: 'Class 2',  danger: 'Осторожно',  status: 'Задокументирован', link: null, sound: 'Капель воды' },
   { num: '2',    name: 'Вентиляционные шахты', class: 'Class 3', danger: 'Опасно',     status: 'Задокументирован', link: null, sound: 'Эхо шагов' },
   { num: '3',    name: 'Электрический рай',   class: 'Class 2',  danger: 'Осторожно',  status: 'Задокументирован', link: null, sound: 'Треск разрядов' },
